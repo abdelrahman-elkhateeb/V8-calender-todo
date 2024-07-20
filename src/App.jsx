@@ -1,13 +1,8 @@
-import Calender from "./features/AppLayout/Calender";
-import Header from "./features/UI/Header";
-
+import AppContent from "./features/AppLayout/AppContent";
 function App() {
   return (
-    <div className="h-dvh pt-5">
-      <div className="container relative mx-auto h-dvh px-4">
-        <Header />
-        <Calender />
-      </div>
+    <div className="container relative mx-auto h-dvh px-4 pt-5">
+      <AppContent />
     </div>
   );
 }

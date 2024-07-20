@@ -34,23 +34,32 @@ function Calender() {
     setCurrMonth(format(firstDayOfNextMonth, "MMM-yyyy"));
   }
 
-  const buttonClassName = ``;
+  const buttonClassName = `text-primary h-fit`;
 
   return (
-    <>
-      <div className="mt-8 flex justify-end">
+    <div className="shadow-lineShadow after:content[*] relative mb-6 rounded-lg bg-background p-6 after:absolute after:left-0 after:top-4 after:-z-[1] after:h-full after:w-full after:rounded-lg after:bg-primary md:after:left-4">
+      <div className="mt-8 flex items-center justify-end gap-2">
         <button onClick={getNextMonth} className={buttonClassName}>
-          <span className="material-symbols-outlined">arrow_back_ios</span>
+          <span className="material-symbols-outlined">arrow_back</span>
+        </button>
+        <button
+          onClick={() => setCurrMonth(format(today, "MMM-yyyy"))}
+          className="rounded bg-primary p-1 text-background"
+        >
+          today
         </button>
         <button onClick={getPrevMonth} className={buttonClassName}>
-          <span className="material-symbols-outlined">arrow_forward_ios</span>
+          <span className="material-symbols-outlined">arrow_forward</span>
         </button>
       </div>
 
       <div className="mt-8 grid grid-cols-7 place-items-center gap-6 sm:gap-12">
         {days.map((day, idx) => {
           return (
-            <div key={idx} className="font-semibold capitalize">
+            <div
+              key={idx}
+              className="p-2 text-xl font-semibold capitalize italic"
+            >
               {day}
             </div>
           );
@@ -58,11 +67,10 @@ function Calender() {
       </div>
       <div className="sm:gap-21 mt-8 grid grid-cols-7 place-items-center gap-6">
         {daysInMonth.map((day, id) => {
-          console.log(isToday(day));
           return (
             <div key={id} className="text-center">
               <p
-                className={`${isToday(day) ? `bg-secondary` : ""} cursor-pointer border-b-2 border-accent p-5`}
+                className={`${isToday(day) ? `bg-secondary` : ""} cursor-pointer rounded p-5 hover:bg-primary`}
               >
                 {format(day, "dd")}
               </p>
@@ -70,7 +78,7 @@ function Calender() {
           );
         })}
       </div>
-    </>
+    </div>
   );
 }
 
