@@ -1,7 +1,7 @@
 function Header() {
   return (
-    <div className="flex items-center justify-between">
-      <h1 className="text-primary font-edu-hand text text-5xl italic">
+    <div className="border-b-primary flex items-center justify-between border-b-2 pb-10">
+      <h1 className="text-primary font-edu-hand text text-5xl italic font-bold">
         V<span className="text-accent">8</span>
       </h1>
 
