@@ -13,7 +13,6 @@ function AppContent() {
           <Calender />
           <Events />
         </div>
-        <EventViewrs/>
       </CalenderProvider>
     </>
   );

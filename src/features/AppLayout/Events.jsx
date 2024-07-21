@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useCalenderContext } from '../../context/CalenderContext';
-
+import EventViewrs from './EventViewrs';
 function Events() {
   const [name, setName] = useState("");
   const [slot, setSlot] = useState("");
   const [subject, setSubject] = useState("");
   const [location, setLocation] = useState("");
   const [content, setContent] = useState("");
+  const [date, setDate] = useState("");
   const { choosenDay } = useCalenderContext();
   const [eventsFromLocal, setEventsFromLocal] = useState([]);
   const inputClassName = `shadow-lineShadow p-4 rounded-md focus:outline-primary`;
@@ -41,7 +42,7 @@ function Events() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newEvent = { name, slot, subject, location, content };
+    const newEvent = {date:choosenDay, name, slot, subject, location, content };
     const storedEvents = JSON.parse(localStorage.getItem("events")) || {};
     const dayEvents = storedEvents[choosenDay]
       ? [...storedEvents[choosenDay], newEvent]
@@ -128,6 +129,8 @@ function Events() {
           Select a day
         </p>
       )}
+        <EventViewrs events={eventsFromLocal} chosenDay={choosenDay}/>
+
     </>
   );
 }
