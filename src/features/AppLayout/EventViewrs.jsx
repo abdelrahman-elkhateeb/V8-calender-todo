@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import { format, parseISO } from "date-fns";
 function EventViewrs({ events }) {
   // Use useEffect to log the events everytime it gets updated
   useEffect(() => {
@@ -14,7 +14,13 @@ function EventViewrs({ events }) {
           <h2 className="text-xl font-semibold text-gray-800 mb-4">
             {/* Assuming the events array contains objects with a 'date' property, 
             you can use the first event's date for the heading. */}
-            {events[0]?.date || "Today"}
+          {events[0]?.date ? format(parseISO(events[0].date), "yyyy-MM-dd") : "Today"} Tasks
+
+
+
+
+
+
           </h2>
 
           {events.map((ev, evIndex) => (
