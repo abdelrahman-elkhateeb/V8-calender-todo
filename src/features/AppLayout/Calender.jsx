@@ -26,6 +26,13 @@ function Calendar() {
     end: endOfMonth(firstDayOfMonth),
   });
 
+  function formatDate(dateString) {
+    if(dateString.length < 8)return dateString;
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    return `${day}-${month}`;
+  }
   function getPrevMonth(e) {
     e.preventDefault();
     const firstDayOfPrevMonth = add(firstDayOfMonth, { months: -1 });
@@ -59,7 +66,7 @@ function Calendar() {
         <button
           onClick={() => {
             setCurrMonth(format(today, "MMM-yyyy"));
-            setChoosenDay(today); // Set chosen day to today
+            setChoosenDay(formatDate(today)); // Set chosen day to today
           }}
           className={`rounded p-1 text-background ${isTodayActive ? "bg-secondary" : "bg-primary"}`}
         >
@@ -89,7 +96,7 @@ function Calendar() {
                 ${isSameDay(day, choosenDay) ? "bg-blue-500 text-white" : ""}
                 cursor-pointer rounded p-5 hover:bg-primary
               `}
-              onClick={() => setChoosenDay(day)}
+              onClick={() => setChoosenDay(formatDate(day))}
             >
               {format(day, "dd")}
             </p>

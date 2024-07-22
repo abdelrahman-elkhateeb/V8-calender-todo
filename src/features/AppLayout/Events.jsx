@@ -58,13 +58,10 @@ const [dataLoaded, setDataLoaded] = useState(false);
     const filteredEvents = [];
     // const choosenDay = choosenDay===undefined?choosenDay: new Date(); // set the choosen day to today
   // set the choosen day to today
-  let curDate = "23-07"
-  // console.log("choosenDay", choosenDay);
-  // if(choosenDay!==undefined)
-  // curDate =choosenDay
-    // const formattedDate = formatDate(choosenDay);
+  // const formattedDate = formatDate(choosenDay)
+    console.log(choosenDay);
     for(let i = 0; i < storedEvents.length; i++){
-      if(storedEvents[i].date === curDate){
+      if(storedEvents[i].date === choosenDay){
         filteredEvents.push(storedEvents[i]);
       }
     }
