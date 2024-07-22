@@ -14,7 +14,7 @@ function EventViewrs({ events }) {
           <h2 className="text-xl font-semibold text-gray-800 mb-4">
             {/* Assuming the events array contains objects with a 'date' property, 
             you can use the first event's date for the heading. */}
-          {events[0]?.date ? format(parseISO(events[0].date), "yyyy-MM-dd") : "Today"} Tasks
+          {/* {events[0]?.date ? (events[0].date), "yyyy-MM-dd") : "Today"} Tasks */}
 
 
 

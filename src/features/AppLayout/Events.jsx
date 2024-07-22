@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useCalenderContext } from '../../context/CalenderContext';
-import EventViewrs from './EventViewrs';
+import { useEffect, useState } from "react";
+import { useCalenderContext } from "../../context/CalenderContext";
+import EventViewrs from "./EventViewrs";
 function Events() {
   const [name, setName] = useState("");
   const [slot, setSlot] = useState("");
@@ -10,16 +10,66 @@ function Events() {
   const [date, setDate] = useState("");
   const { choosenDay } = useCalenderContext();
   const [eventsFromLocal, setEventsFromLocal] = useState([]);
+const [dataLoaded, setDataLoaded] = useState(false);
   const inputClassName = `shadow-lineShadow p-4 rounded-md focus:outline-primary`;
-
+  // useeffect to fetch data from backend
+  // useEffect(() => {
+  //   if(dataLoaded)return;
+  //   fetch("http://localhost:5003/bot")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log("data ");
+  //       console.log(data);
+  //   const storedEvents = JSON.parse(localStorage.getItem("events")) || {};
+     
+  //       for (let i = 0; i < data.length; i++) {
+  
+  //         const newEvent = {
+  //           date: data[i].date,
+  //           name: data[i].type,
+  //           slot: data[i].slot,
+  //           subject: data[i].subject,
+  //           location: data[i].location,
+  //           content: data[i].content,
+  //         };
+  
+  //         const dayEvents = storedEvents[data[i].date]
+  //           ? [...storedEvents[data[i].date], newEvent]
+  //           : [newEvent];
+  
+  //         storedEvents[data[i].date] = dayEvents;
+  //       }
+  
+  //       localStorage.setItem("events", JSON.stringify(storedEvents));
+  //       setEventsFromLocal(storedEvents);
+  //     });
+  //     setDataLoaded(true);
+  // }, []);
+  function formatDate(dateString) {
+    if(date.length < 8)return date;
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    return `${day}-${month}`;
+  }
   // Function to load events from localStorage
   const loadEvents = () => {
     const storedEvents = JSON.parse(localStorage.getItem("events")) || {};
-    if (storedEvents[choosenDay]) {
-      setEventsFromLocal(storedEvents[choosenDay]);
-    } else {
-      setEventsFromLocal([]);
+    const filteredEvents = [];
+    // const choosenDay = choosenDay===undefined?choosenDay: new Date(); // set the choosen day to today
+  // set the choosen day to today
+  let curDate = "23-07"
+  // console.log("choosenDay", choosenDay);
+  // if(choosenDay!==undefined)
+  // curDate =choosenDay
+    // const formattedDate = formatDate(choosenDay);
+    for(let i = 0; i < storedEvents.length; i++){
+      if(storedEvents[i].date === curDate){
+        filteredEvents.push(storedEvents[i]);
+      }
     }
+    console.log(filteredEvents);
+    setEventsFromLocal(filteredEvents);
   };
 
   useEffect(() => {
@@ -32,27 +82,38 @@ function Events() {
       }
     };
 
-    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener("storage", handleStorageChange);
 
     // Cleanup
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener("storage", handleStorageChange);
     };
   }, [choosenDay]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newEvent = {date:choosenDay, name, slot, subject, location, content };
+    // make the date format to mm-dd
+    const formattedDate = formatDate(choosenDay);
+    console.log("formattedDate", formattedDate);
+    console.log(date);
+    const newEvent = {
+      date: formattedDate,
+      name,
+      slot,
+      subject,
+      location,
+      content,
+    };
     const storedEvents = JSON.parse(localStorage.getItem("events")) || {};
     const dayEvents = storedEvents[choosenDay]
       ? [...storedEvents[choosenDay], newEvent]
       : [newEvent];
     storedEvents[choosenDay] = dayEvents;
     localStorage.setItem("events", JSON.stringify(storedEvents));
-    
+
     // Call loadEvents right after updating local storage to refresh the events list
     loadEvents();
-  
+
     // Reset form fields after submission
     setName("");
     setSlot("");
@@ -129,8 +190,7 @@ function Events() {
           Select a day
         </p>
       )}
-        <EventViewrs events={eventsFromLocal} chosenDay={choosenDay}/>
-
+      <EventViewrs events={eventsFromLocal} chosenDay={choosenDay} />
     </>
   );
 }
