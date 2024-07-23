@@ -13,40 +13,40 @@ function Events() {
 const [dataLoaded, setDataLoaded] = useState(false);
   const inputClassName = `shadow-lineShadow p-4 rounded-md focus:outline-primary`;
   // useeffect to fetch data from backend
-  // useEffect(() => {
-  //   if(dataLoaded)return;
-  //   fetch("http://localhost:5003/bot")
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log("data ");
-  //       console.log(data);
-  //   const storedEvents = JSON.parse(localStorage.getItem("events")) || {};
+  useEffect(() => {
+    if(dataLoaded)return;
+    fetch("http://localhost:5003/bot")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("data ");
+        console.log(data);
+    const storedEvents = JSON.parse(localStorage.getItem("events")) || {};
      
-  //       for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < data.length; i++) {
   
-  //         const newEvent = {
-  //           date: data[i].date,
-  //           name: data[i].type,
-  //           slot: data[i].slot,
-  //           subject: data[i].subject,
-  //           location: data[i].location,
-  //           content: data[i].content,
-  //         };
+          const newEvent = {
+            date: data[i].date,
+            name: data[i].type,
+            slot: data[i].slot,
+            subject: data[i].subject,
+            location: data[i].location,
+            content: data[i].content,
+          };
   
-  //         const dayEvents = storedEvents[data[i].date]
-  //           ? [...storedEvents[data[i].date], newEvent]
-  //           : [newEvent];
+          const dayEvents = storedEvents[data[i].date]
+            ? [...storedEvents[data[i].date], newEvent]
+            : [newEvent];
   
-  //         storedEvents[data[i].date] = dayEvents;
-  //       }
+          storedEvents[data[i].date] = dayEvents;
+        }
   
-  //       localStorage.setItem("events", JSON.stringify(storedEvents));
-  //       setEventsFromLocal(storedEvents);
-  //     });
-  //     setDataLoaded(true);
-  // }, []);
+        localStorage.setItem("events", JSON.stringify(storedEvents));
+        setEventsFromLocal(storedEvents);
+      });
+      setDataLoaded(true);
+  }, []);
   function formatDate(dateString) {
-    if(date.length < 8)return date;
+    if(dateString.length < 8)return dateString;
     const date = new Date(dateString);
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -54,14 +54,15 @@ const [dataLoaded, setDataLoaded] = useState(false);
   }
   // Function to load events from localStorage
   const loadEvents = () => {
-    const storedEvents = JSON.parse(localStorage.getItem("events")) || {};
+    const storedEvents = localStorage.getItem("events")|| [];
     const filteredEvents = [];
+    const curDate = formatDate(choosenDay)
     // const choosenDay = choosenDay===undefined?choosenDay: new Date(); // set the choosen day to today
   // set the choosen day to today
   // const formattedDate = formatDate(choosenDay)
-    console.log(choosenDay);
+    console.log(curDate);
     for(let i = 0; i < storedEvents.length; i++){
-      if(storedEvents[i].date === choosenDay){
+      if(storedEvents[i].date === curDate){
         filteredEvents.push(storedEvents[i]);
       }
     }
@@ -101,14 +102,13 @@ const [dataLoaded, setDataLoaded] = useState(false);
       location,
       content,
     };
-    const storedEvents = JSON.parse(localStorage.getItem("events")) || {};
-    const dayEvents = storedEvents[choosenDay]
-      ? [...storedEvents[choosenDay], newEvent]
-      : [newEvent];
-    storedEvents[choosenDay] = dayEvents;
-    localStorage.setItem("events", JSON.stringify(storedEvents));
+    let  storedEvents = (localStorage.getItem("events"))
+    console.log("ssss" ,storedEvents);
+    // push the event 
+    storedEvents = [...storedEvents,newEvent]
+    localStorage.setItem("events",storedEvents);
 
-    // Call loadEvents right after updating local storage to refresh the events list
+    // Call loadEvents right` after updating local storage to refresh the events list
     loadEvents();
 
     // Reset form fields after submission
