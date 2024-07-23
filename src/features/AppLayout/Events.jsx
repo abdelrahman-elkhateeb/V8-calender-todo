@@ -15,7 +15,7 @@ const [dataLoaded, setDataLoaded] = useState(false);
   // useeffect to fetch data from backend
   useEffect(() => {
     if(dataLoaded)return;
-    fetch("http://localhost:5003/bot")
+    fetch("http://localhost:5005/bot")
       .then((res) => res.json())
       .then((data) => {
         console.log("data ");
