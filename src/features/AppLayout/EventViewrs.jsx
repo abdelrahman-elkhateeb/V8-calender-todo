@@ -28,11 +28,11 @@ function EventViewrs({ events }) {
               key={evIndex}
               className="bg-white shadow-md rounded-lg p-4 mb-4"
             >
-              <h3 className="text-lg font-semibold text-blue-600">{ev.name}</h3>
-              <p className="text-gray-600">Slot: {ev.slot}</p>
-              <p className="text-gray-600">Subject: {ev.subject}</p>
-              <p className="text-gray-600">Location: {ev.location}</p>
-              <p className="text-gray-600">Content: {ev.content}</p>
+              <h3 className="text-lg font-semibold text-blue-600">{ev.type}</h3>
+              <p className="text-gray-600">Slot: {ev.slot?ev.slot: " 11:59 PM"}</p>
+              <p className="text-gray-600">Subject: {ev.subject? ev.subject : "Mobile dev"}</p>
+              <p className="text-gray-600">Location: {ev.location? ev.location : "Online Form"}</p>
+              <p className="text-gray-600">Content: {ev.content? ev.content : "on CMS"}</p>
             </div>
           ))}
         </div>

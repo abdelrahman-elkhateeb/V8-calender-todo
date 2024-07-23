@@ -45,7 +45,7 @@ const [dataLoaded, setDataLoaded] = useState(false);
         // setEventsFromLocal(storedEvents);
       });
       setDataLoaded(true);
-  }, []);
+  }, [dataLoaded]);
   function formatDate(dateString) {
     if(!dateString)return;
     if(dateString.length < 8)return dateString;
