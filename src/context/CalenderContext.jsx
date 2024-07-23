@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from "react";
 const CalenderContext = createContext();
 
 function CalenderProvider({ children }) {
-  const [choosenDay, setChoosenDay] = useState("23-07");
+  const [choosenDay, setChoosenDay] = useState();
   const [events, setEvents] = useState({});
 
   const addEvent = (date, event) => {
