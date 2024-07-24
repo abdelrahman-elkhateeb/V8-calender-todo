@@ -39,7 +39,10 @@ function EventViewrs({ events, myplan }) {
       ) : (
         <p className="text-gray-500">No events to display.</p>
       )}
-      {myplan}
+        <div
+        className="mt-4"
+        dangerouslySetInnerHTML={{ __html: myplan }}
+      />
     </div>
   );
 }
