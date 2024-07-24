@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { format, parseISO } from "date-fns";
-function EventViewrs({ events }) {
+function EventViewrs({ events, myplan }) {
   // Use useEffect to log the events everytime it gets updated
   useEffect(() => {
     console.log("Events updated:", events);
@@ -39,6 +39,7 @@ function EventViewrs({ events }) {
       ) : (
         <p className="text-gray-500">No events to display.</p>
       )}
+      {myplan}
     </div>
   );
 }

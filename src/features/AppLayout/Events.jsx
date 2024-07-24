@@ -12,40 +12,41 @@ function Events() {
   const [eventsFromLocal, setEventsFromLocal] = useState([]);
   const [displayEvents, setDisplayEvents] = useState([]);
 const [dataLoaded, setDataLoaded] = useState(false);
+const [plan, setPlan]= useState("");
   const inputClassName = `shadow-lineShadow p-4 rounded-md focus:outline-primary`;
   // useeffect to fetch data from backend
   useEffect(() => {
-    if(dataLoaded)return;
+    if (dataLoaded) return;
+
     fetch("http://localhost:5005/bot")
       .then((res) => res.json())
       .then((data) => {
         console.log("data ");
         console.log(data);
-    // const storedEvents = JSON.parse(localStorage.getItem("events")) || {};
-     setEventsFromLocal(data);
-        // for (let i = 0; i < data.length; i++) {
-  
-        //   const newEvent = {
-        //     date: data[i].date,
-        //     name: data[i].type,
-        //     slot: data[i].slot,
-        //     subject: data[i].subject,
-        //     location: data[i].location,
-        //     content: data[i].content,
-        //   };
-  
-        //   const dayEvents = storedEvents[data[i].date]
-        //     ? [...storedEvents[data[i].date], newEvent]
-        //     : [newEvent];
-  
-        //   storedEvents[data[i].date] = dayEvents;
-        // }
-  
-        // localStorage.setItem("events", JSON.stringify(storedEvents));
-        // setEventsFromLocal(storedEvents);
+        setEventsFromLocal(data);
+        setDataLoaded(true);  // Move this line here
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setDataLoaded(true);  // Ensure state is updated even on error
       });
-      setDataLoaded(true);
   }, [dataLoaded]);
+  // i need once dataloaded to be true to fetch form backend  some data 
+  useEffect(() => {
+    if (!dataLoaded) return;
+console.log("fetching additional data");
+    // Fetch additional data from the backend
+    fetch("http://localhost:5005/bot/plan")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("additional data");
+        console.log(data);
+        setPlan(data);
+        // Process additional data as needed
+      });
+  }, [dataLoaded]);
+
+
   function formatDate(dateString) {
     if(!dateString)return;
     if(dateString.length < 8)return dateString;
@@ -198,7 +199,7 @@ const [dataLoaded, setDataLoaded] = useState(false);
           Select a day
         </p>
       )}
-      <EventViewrs events={displayEvents} chosenDay={choosenDay} />
+      <EventViewrs myplan ={plan} events={displayEvents} chosenDay={choosenDay} />
     </>
   );
 }
